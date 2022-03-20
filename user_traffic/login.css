@@ -1,0 +1,102 @@
+
+body {
+    font-family: Arial;
+    color: white;
+  }
+  
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+  
+.left {
+    left: 0;
+    background-color: rgba(2, 6, 255, 0.431);  
+}
+  
+.right {
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.897);
+}
+  
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+  
+.centered img {
+    width: 250px;
+    padding-top:70px;
+    padding-left: 40px;
+
+}
+
+h1{
+  color: black;
+}
+
+
+.items {
+
+    height: 250px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+input{
+  height: 40px;
+  width:350px;
+  border-radius: 5px;
+  font-size: 16px;
+  border:0.5px solid lightgray;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+#link{
+      color: rgb(11, 0, 158);
+      margin-top: 10px;
+      margin-bottom: 10px;
+}
+
+button{
+  width:350px;
+  height: 45px;
+  border-radius: 5px;
+  background-color: rgb(51, 51, 255);
+  opacity: 0.89;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color:white;
+  cursor: pointer;
+}
+
+
+button:hover{
+    background-color: white;
+    border: 2px solid rgb(51, 51, 255);
+    color: rgb(51, 51, 255);
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+}
+  
+
+#loginID{
+    font-family: "Open Sans", sans-serif;
+}
