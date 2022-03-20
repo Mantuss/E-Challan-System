@@ -10,24 +10,28 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<html>
+<html lang="en">
 
 <head>
-    <title> Login Page </title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Admin Login</title>
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
-    <form method="POST">
+    <div class="image-container">
+        <img src="../images/E-Challan.svg" alt="logo or some illustration" height="550" width="700" />
+    </div>
+    <div class="login-form">
+        <form class="items" method="post">
+            <input class="input" type="text" name="user" placeholder="Email or UserId">
+            <input class="input" type="password" name="pass" placeholder="Password">
+            <input class="button" type="submit" name="submit">
+        </form>
+    </div>
 
-        <label for="user"> User Id :</label>
-        <input type="text" class="user" name="user"> &nbsp;&nbsp;
-
-        <label for="pass"> Password :</label>
-        <input type="password" class="pass" name="pass"> &nbsp;&nbsp;
-
-        <input type="submit" class="submit" name="submit">
-
-    </form>
 </body>
 
 </html>

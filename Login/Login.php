@@ -49,19 +49,11 @@ class Login{
 
         function logUser(){
 
-            if(isset($_SESSION['session'])){
-
-                
-
-
-            }
-
-            else{
                 
                 $bool = $this->checkDatabase();
                 if($bool){
                     $_SESSION['session'] = $this->traffic_id;
-                    header("Location: ../index.php");
+                    header("Location: ../Super Admin/index.php");
                     exit();
                 }
 
@@ -72,7 +64,7 @@ class Login{
                 }
 
 
-            }
+            
 
         }
 
