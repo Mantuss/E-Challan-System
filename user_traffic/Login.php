@@ -27,6 +27,8 @@ class Login
         $conn = $connection->getConnection("echallan");
         $encrypted = md5($this->password);
 
+        echo $this->traffic_id;
+
         $sql = "SELECT COUNT(DISTINCT traffic_id) as count From traffic_logs WHERE traffic_id = '$this->traffic_id' AND password = '$this->password'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_fetch_object($result);
@@ -43,7 +45,7 @@ class Login
         $bool = $this->checkDatabase();
         if ($bool) {
             $_SESSION['session'] = $this->traffic_id;
-            header("Location: ../Super Admin/index.php");
+            header("Location: ./index.php");
             exit();
         } else {
 
