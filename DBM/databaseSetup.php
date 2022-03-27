@@ -24,47 +24,62 @@ class SetupDatabase
             exit();
         }
 
-        $sql = "CREATE DATABASE $this->dbname";
+        $sql = "SHOW DATABASES LIKE '+$this->dbname+'";
 
-        if ($conn->query($sql)) {
+        $exec = mysqli_query($conn, $sql);
 
-            $queries = array(
+        if (mysqli_num_rows($exec) == 0) {
 
-                "CREATE TABLE traffic_logs (
-                    traffic_id varchar(6) NOT NULL,
-                    traffic_post varchar(20) NOT NULL,
-                    account_status int NOT NULL,
-                    password varchar(10) NOT NULL
-                );",
+            $sql = "CREATE DATABASE $this->dbname";
 
-                "CREATE TABLE challan (
-                    challan_id varchar(10) NOT NULL,
-                    license_number varchar(10) NOT NULL,
-                    vehicle_number varchar(10) NOT NULL, 
-                    user_name varchar(20) NOT NULL,
-                    traffic_id varchar(6) NOT NULL,
-                    time_stamp TIMESTAMP NOT NULL,
-                    date_time date NOT NULL
-                );",
+            if ($conn->query($sql)) {
 
-                "CREATE TABLE super_admin (
-                    admin_id varchar(6) NOT NULL,
-                    admin_status int NOT NULL
-                );"
+                $conn = new mysqli($this->server, $this->username, $this->password, $this->dbname);
 
-            );
+                $queries = array(
 
-            $conn = new mysqli($this->server, $this->username, $this->password, $this->dbname);
+                    "CREATE TABLE traffic_logs (
+                        traffic_id varchar(6) NOT NULL,
+                        traffic_post varchar(20) NOT NULL,
+                        account_status int NOT NULL,
+                        traffic_pass varchar(10) NOT NULL
+                    );",
 
-            for ($i = 0; $i < sizeof($queries); $i++) {
-                $conn->query($queries[$i]);
+                    "CREATE TABLE challan (
+                        challan_id varchar(10) NOT NULL,
+                        license_number varchar(10) NOT NULL,
+                        vehicle_number varchar(10) NOT NULL, 
+                        user_name varchar(20) NOT NULL,
+                        traffic_id varchar(6) NOT NULL,
+                        time_stamp TIMESTAMP NOT NULL,
+                        date_time date NOT NULL,
+                        charge int NOT NULL
+                    );",
+
+                    "CREATE TABLE super_admin (
+                        admin_id varchar(20) NOT NULL,
+                        admin_pass varchar(10) NOT NULL,
+                        admin_status int NOT NULL
+                    );",
+
+                    "INSERT INTO super_admin(admin_id, admin_pass, admin_status) VALUES ('admin_traffic','admin_pass', 1);"
+                );
+
+                for ($i = 0; $i < sizeof($queries); $i++) {
+                    $conn->query($queries[$i]);
+                }
+
+                header("Location: ../user_admin/Login.html");
+                exit();
+                
+            } else {
+
+                header("Location: ../user_admin/LoginPanel.php");
+                exit();
             }
-
-            header("Location: http://localhost/E-Challan/Login/LoginPanel.php");
-            exit();
         } else {
 
-            header("Location: http://localhost/E-Challan/Login/LoginPanel.php");
+            header("Location: ../user_admin/LoginPanel.php");
             exit();
         }
 
@@ -73,5 +88,5 @@ class SetupDatabase
 }
 
 
-$setup = new SetupDatabase("root","","localhost","echallan");
+$setup = new SetupDatabase("root", "", "localhost", "echallan");
 $setup->databaseCreate();

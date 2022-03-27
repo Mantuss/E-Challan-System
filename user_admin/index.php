@@ -1,74 +1,78 @@
 <?php
 
+include("./admin_functions.php");
+
+error_reporting(0);
+
+if (isset($_POST['create'])) {
+
+    $admin = new Admin();
+    $bool = $admin->createAccount($_POST['user'], $_POST['pass'], $_POST['traffic_post']);
+
+    if ($bool) {
+        $text = "Account Created";
+    } else {
+        $text = "Something went wrong";
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
-
-
-    </style>
-
+    <link rel="stylesheet" href="style.css">
+    <title>Admin Page</title>
 
 </head>
 
 <body>
 
+    <div style="margin-left:200px;">
+
+        <form method="post" style="border: 1px solid black;width:250px;height:300px;padding-left:50px;">
+
+            <h3> Create Account </h3>
+
+            <div class="form-control">
+                Traffic Id: <br>
+                <input type="text" id="name" placeholder="Traffic Id" name="user" required />
+            </div>
+            <br>
+
+            <div class="form-control">
+                Password: <br>
+                <input type="password" id="pass" placeholder="Password" name="pass" required /><br>
+            </div>
+            <br>
+
+            <div class="form-control">
+                Traffic Post: <br>
+                <input type="text" id="pass" placeholder="Traffic Post" name="traffic_post" required /><br>
+            </div>
+
+            <br>
+            <input type="submit" value="Create Account" class="submit-btn" name="create" />
+
+            <div style="color:<?php if ($text == "Account Created") { ?> green; <?php } else { ?> red; <?php } ?>">
+                <?php
+                echo $text;
+                ?>
+            </div>
+
+        </form>
+</div>
 
 
 
 
-    <div style="border:1px solid black; float: left;height:300px;width:920px;margin-left:60px;">
+    <a href="./logout.php"> Logout </a>
 
-
-
-    </div>
-
-    <div style="margin-left:1050px;border: 1px solid black;padding:20px;width:320px;margin-top: 300px;">
-
-        <span>
-
-            <form method="POST">
-
-                <label for="user"> Traffic Id :</label>&nbsp;&nbsp;
-                <input type="text" class="user" name="user"> <br><br>
-
-                <label for="pass"> Traffic Name :</label>
-                <input type="password" class="pass" name="pass"> <br><br>
-
-
-                <label for="cars">Choose a Post:</label>
-
-                <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                </select> <br><br>
-
-                <label for="pass"> Password :</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="password" class="pass" name="pass"> <br><br>
-
-
-                <div style="border: 1px solid black;height:50px;width:310px;">
-
-                </div>
-                <br>
-
-                <input type="submit" class="submit" name="submit">
-
-            </form>
-
-        </span>
-
-    </div>
+    <script src="./index.js"> </script>
 
 </body>
 
