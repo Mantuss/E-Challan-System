@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Montserrat:wght@100&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #f8f8fc;
+    
+}
+
+.header{
+    width: inherit;
+    height: 10vh;
+    background-color: #ffffff ;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 5px 0 50px #e0e1e4;
+    justify-content: center;
+}
+
+.search{
+    position: relative;
+    left: 10vw;
+    border:none;
+    /* border: 0.1px solid rgb(225, 226, 225); */
+    width: 50%;
+    height: 60%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.echallan{
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.searchbox{
+    outline:none;
+    border: none;
+    height: 100%;
+    width: 85%;
+    background-color: #f8f8fc;
+    text-align:center;
+    font-size: 22px;
+    opacity: 0.65;
+}
+.searchicon{
+    outline: none;
+    border: none;
+    width: 15%;
+    height: 100%;
+    background-color: #4e72df;
+    color: white;
+    font-size: 22px;
+    box-sizing: border-box;
+}
+#icon{
+    padding-left: 0px;
+}
+
+
+
+.sidebar{
+    position: fixed;
+    top:0;
+    left: 0;
+    background-color: #4e72df;
+    height: 100vh;
+    width: 20vw;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 2;
+   
+    
+}
+hr {
+    position: relative;
+    left: 20px;
+    opacity: 0.85;
+    width: 80%;
+    border: none;
+    height: 0.6px;
+    background-color: #e3e8ff;
+    opacity: 0.50;
+    
+}
+
+.username{
+    padding: 40px 0 40px 20px;
+    color:#e3e8ff;
+}
+
+.dashboard{
+    padding: 20px 0 20px 20px;
+    color:#e3e8ff;
+}
+
+.tasks{
+    width: inherit;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    color:#e3e8ff;
+
+}
+
+.tasks h4{
+    padding-left: 10px;
+    opacity: 0.80;
+}
+.tasks h3{
+    padding-left: 20px;
+    opacity: 0.95;
+
+}
+.messages{
+    width: inherit;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    color:#e3e8ff;
+}
+
+.messages h4, i{
+    padding-left: 10px;
+    opacity: 0.80;
+}
+.messages h3{
+    padding-left: 20px;
+    opacity: 0.95;
+
+}
+
+h3:hover{
+    color:black;
+    cursor: pointer;
+}
+
+.a{
+    position: relative;
+    top: 140px;
+    color:#e3e8ff;
+    text-decoration: none;
+    padding-left: 25%; 
+}
+
+.a:hover{
+    color:black;
+    
+}
+
+
+.container{
+    border: none;
+    margin-top: 3vh;
+    margin-left: 22vw;
+    width: 75%;
+    height: 15vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.box{
+    border: none;
+    width: 28%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: black;
+    font-size: 25px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #4e72df;
+    color:#eceef8 ;
+    opacity: 0.95;
+    box-shadow: 0px 4px 12px rgb(143, 142, 142);
+}
+
+.box:hover{
+    color:black;
+}
+.graph{
+    border:none;
+    height: 45vh;
+    width: 75%;
+    margin-left: 22vw;
+    display: row;
+    justify-content: flex-start;
+}
+.graphone{
+    border: 1px solid black;
+    height: 90%;
+    width: 65%;
+    background-color: white;
+}
+.graphtwo{
+    position: relative;
+    left: 20px;
+    border: 1px solid black;
+    height: 90%;
+    width: 33%;
+    background-color: white;
+    
+}
+.console{
+    position: relative;
+    top: 30px;
+    border: 1px solid black;
+    width: 75%;
+    height: 18vh;
+    margin-left: 22vw;
+    background-color: #4e72df;
+    color: #e3e8ff;  
+    box-sizing: border-box;  
+}
+p{
+    font-size: 25px;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+.notification{
+    display: block;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+
