@@ -70,16 +70,12 @@ class Admin
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
     
+
+    function getChallanHistory(){
+
+        $sql = "SELECT * FROM challan WHERE traffic_id != '' "; 
+        $result = $this->conn->query($sql);
+
+    }
 }

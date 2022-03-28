@@ -15,5 +15,5 @@ function history() {
 }
 
 function logout() {
-  console.log("Bye Bitch");
+  console.log("Bye");
 }

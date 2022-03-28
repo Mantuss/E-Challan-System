@@ -7,7 +7,7 @@
 
 <html>
 
-    <title>  Error Handled Bitch </title>
+    <title>  Error Handled </title>
 
 
     <body>
