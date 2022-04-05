@@ -8,166 +8,6 @@
     <link rel="stylesheet" href="Style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Montserrat:wght@100&display=swap');
-
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        body{
-            background-color: #f8f8fc;
-            
-        }
-        
-        .header{
-            width: inherit;
-            height: 10vh;
-            background-color: #ffffff ;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            box-shadow: 5px 0 50px #e0e1e4;
-            justify-content: center;
-        }
-        
-        .search{
-            position: relative;
-            left: 10vw;
-            border:none;
-            /* border: 0.1px solid rgb(225, 226, 225); */
-            width: 50%;
-            height: 60%;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        
-        }
-        .echallan{
-            color: black;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 30px;
-            font-weight: bold;
-        }
-        
-        .searchbox{
-            outline:none;
-            border: none;
-            height: 100%;
-            width: 85%;
-            background-color: #f8f8fc;
-            text-align:center;
-            font-size: 22px;
-            opacity: 0.65;
-        }
-        .searchicon{
-            outline: none;
-            border: none;
-            width: 15%;
-            height: 100%;
-            background-color: #4e72df;
-            color: white;
-            font-size: 22px;
-            box-sizing: border-box;
-        }
-        #icon{
-            padding-left: 0px;
-        }
-        
-        
-        
-        .sidebar{
-            position: fixed;
-            top:0;
-            left: 0;
-            background-color: #4e72df;
-            height: 100vh;
-            width: 20vw;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-            z-index: 2;
-           
-            
-        }
-        hr {
-            position: relative;
-            left: 20px;
-            opacity: 0.85;
-            width: 80%;
-            border: none;
-            height: 0.6px;
-            background-color: #e3e8ff;
-            opacity: 0.50;
-            
-        }
-        
-        .username{
-            padding: 40px 0 40px 20px;
-            color:#e3e8ff;
-        }
-        
-        .dashboard{
-            padding: 20px 0 20px 20px;
-            color:#e3e8ff;
-        }
-        
-        .tasks{
-            width: inherit;
-            height: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            box-sizing: border-box;
-            color:#e3e8ff;
-        
-        }
-        
-        .tasks h4{
-            padding-left: 10px;
-            opacity: 0.80;
-        }
-        .tasks h3{
-            padding-left: 20px;
-            opacity: 0.95;
-        
-        }
-        .messages{
-            width: inherit;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            box-sizing: border-box;
-            color:#e3e8ff;
-        }
-        
-        .messages h4, i{
-            padding-left: 10px;
-            opacity: 0.80;
-        }
-        .messages h3{
-            padding-left: 20px;
-            opacity: 0.95;
-        
-        }
-        
-        h3:hover{
-            color:black;
-            cursor: pointer;
-        }
-        
-        .a{
-            position: relative;
-            top: 140px;
-            color:#e3e8ff;
-            text-decoration: none;
-            padding-left: 25%; 
-        }
-        
-        .a:hover{
-            color:black;
-            
-        }
         
         .add{
             margin-left: 22vw;
@@ -188,6 +28,7 @@
             position: relative;
             bottom: 3px;
             box-shadow: 2px 3px 10px black;
+            cursor:pointer;
         }
         
         .tablecontainer{
@@ -235,27 +76,27 @@
     <div class="sidebar">
         <h2 class = "username"><i class="fa-solid fa-face-grin"></i> Rikesh Mahat</h2>
         <hr>
-        <h3 class = "dashboard"><i class="fa-solid fa-gauge"></i> Dashboard </h3>
+        <h3 class = "dashboard"><a href="SuperAdminDashboard.html"><i class="fa-solid fa-gauge"></i> Dashboard</a> </h3>
         <hr>
         <div class="tasks">
 
             <h4>TASKS</h4>
-            </i><h3><i class="fa-solid fa-file"></i> History</h3>
-            <h3><i class="fa-solid fa-user"></i> Accounts</h3>
+            <h3><a href=""><i class="fa-solid fa-file"></i> History</a></h3>
+            <h3><a href=""><i class="fa-solid fa-user"></i> Accounts</a></h3>
         </div>
         
         <hr>
 
         <div class="messages">
             <h4>MESSAGES</h4>
-            <h3><i class="fa-solid fa-message"></i> Inbox</h3>
+            <h3><a href=""><i class="fa-solid fa-message"></i> Inbox</a></h3>
         </div>
         <hr>
         <h2> <a href="" alt= "logout button" class="a" >Logout</a> </h2>
     </div>
 
     
-    <button class="add" id = "add">Add Traffic <i class="fa-solid fa-plus"></i> </button>
+    <button class="add" id = "add" onclick="openPopUp()">Add Traffic <i class="fa-solid fa-plus"></i> </button>
     
 
     <div class="tablecontainer">

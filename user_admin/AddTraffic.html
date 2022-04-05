@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/8b955d5b9e.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Montserrat:wght@100&display=swap');
+        
+        .bg-model{
+            height:100%;
+            width:100%;
+            background-color: rgba(0, 0, 0, 0.7);     
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+
+        .add-traffic, .form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .text-button{
+            display: flex;
+            justify-content: space-between;
+            border:1px solid black;
+            width:100%;
+            color:#f8f8fc;
+            height:20%;
+            background-color: #4e72df;
+        }
+        .close{
+            font-size: 50px;
+        }
+        .text-button h1{
+            position: relative;
+            bottom:15px;
+            padding-left: 100px;
+            font-size: 50px;
+        }
+        .text-button a{
+            padding-right: 10px;
+            color:#f8f8fc;
+        }
+        .add-traffic{
+            width:30vw;
+            height: 60vh;
+            background-color: white;
+            border: none;
+            position: absolute;
+            top: 20vh;
+            left:35vw;  
+            box-sizing: border-box;
+            box-shadow: 1px 1px 10px black;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+        }
+        .others{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            border: none;
+            width: 100%;
+            height: 80%;
+        }
+        
+        .form{
+            border: none;
+            width: 80%;
+            height: 30%;
+            
+        }
+        input{
+            width: 80%;
+            height: 40px;
+            padding-left:15px;
+            outline: none;
+            border: 0.5px solid lightgray;
+            background-color: white;
+        }
+       
+        .information{
+            border:none;
+            width: 80%;
+            text-align: center;
+        }
+        .submit{
+            height: 13%;
+            width: 68%;
+            background-color: #4e72df;
+            color: #f8f8fc;
+            border: none;
+            outline:none;
+            font-size: 25px;
+        }
+        .submit:hover{
+            border:4px solid #4e72df;
+            background-color: #f8f8fc;
+            color: #4e72df;
+            border-radius: 10px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="bg-model"></div>
+    <div class="add-traffic">
+       <div class="text-button">
+        <h1>Add Traffic</h1>
+        <a href="Accounts.html" class= "close"><i class="fa-solid fa-xmark"></i></a>
+       </div>
+
+        <div class="others">
+            <form action="submit" class = "form">
+            
+                <input type="text" placeholder="Username or Userid">
+                <input type="text" placeholder="Password">
+            </form>
+            <div class="information">
+                <hr>
+                <p>Create a new Traffic Id</p>
+                <hr>
+            </div>
+            <button class="submit" type="submit" onclick="openPopUp()">Add Traffic</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -25,7 +25,6 @@ body{
     position: relative;
     left: 10vw;
     border:none;
-    /* border: 0.1px solid rgb(225, 226, 225); */
     width: 50%;
     height: 60%;
     background-color: white;
@@ -41,32 +40,6 @@ body{
     font-weight: bold;
 }
 
-.searchbox{
-    outline:none;
-    border: none;
-    height: 100%;
-    width: 85%;
-    background-color: #f8f8fc;
-    text-align:center;
-    font-size: 22px;
-    opacity: 0.65;
-}
-.searchicon{
-    outline: none;
-    border: none;
-    width: 15%;
-    height: 100%;
-    background-color: #4e72df;
-    color: white;
-    font-size: 22px;
-    box-sizing: border-box;
-}
-#icon{
-    padding-left: 0px;
-}
-
-
-
 .sidebar{
     position: fixed;
     top:0;
@@ -79,6 +52,10 @@ body{
     z-index: 2;
    
     
+}
+.sidebar a{
+    text-decoration: none;
+    color: #e3e8ff;
 }
 hr {
     position: relative;
@@ -110,18 +87,19 @@ hr {
     justify-content: space-evenly;
     box-sizing: border-box;
     color:#e3e8ff;
-
 }
 
 .tasks h4{
     padding-left: 10px;
     opacity: 0.80;
 }
-.tasks h3{
+.tasks a{
     padding-left: 20px;
     opacity: 0.95;
 
+
 }
+
 .messages{
     width: inherit;
     height: 20%;
@@ -136,30 +114,16 @@ hr {
     padding-left: 10px;
     opacity: 0.80;
 }
-.messages h3{
+.messages a{
     padding-left: 20px;
     opacity: 0.95;
-
-}
-
-h3:hover{
-    color:black;
-    cursor: pointer;
 }
 
 .a{
     position: relative;
     top: 140px;
-    color:#e3e8ff;
-    text-decoration: none;
     padding-left: 25%; 
 }
-
-.a:hover{
-    color:black;
-    
-}
-
 
 .container{
     border: none;
@@ -236,6 +200,9 @@ p{
     display: block;
     padding-top: 20px;
     padding-left: 20px;
+}
+a:hover{
+    color: black;
 }
 
 
