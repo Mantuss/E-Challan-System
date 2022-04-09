@@ -1,6 +1,15 @@
 <?php
 
+
+require("../../src/Exception.php");
+require("../../src/PHPMailer.php");
+require("../../src/POP3.php");
+require("../../src/SMTP.php");
 include("../../DBM/getConnection.php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class RequestRecovery{
 
@@ -13,29 +22,137 @@ class RequestRecovery{
 
     }
 
-    private function checkExisting($id)
-    {
+    function getAccounts($sql){
 
-        $sql = "SELECT COUNT(DISTINCT traffic_id) as count From traffic_logs WHERE traffic_id = '$id'";
         $result = $this->conn->query($sql);
-        $count = mysqli_fetch_object($result);
+        return $result;
+    }
 
-        if ($count->count == 1) {
-            return false;
-        } else {
+    function passwordGenerator($chars){
+      $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+      return substr(str_shuffle($data), 0, $chars);
+    }
+
+    function removeRequest($email){
+
+      $sql = "DELETE FROM `requests` WHERE email = '$email'";
+      $this->conn->query($sql);
+
+    }
+
+    function changePassword($encrypted, $email){
+
+      $sql = "UPDATE `traffic_logs` SET `traffic_pass`='$encrypted' WHERE email = '$email'";
+      $this->conn->query($sql);
+
+    }
+
+    function sendMail($indi, $email, $template, $new_pass){
+
+      if($indi == "success"){
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.mailgun.org';
+            $mail->SMTPAuth   =  true;
+            $mail->Username   = 'otp@amsystem.codes';
+            $mail->Password   = '8a801b07a93c183f930b212b2f718fcf-0677517f-c4783eaa';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+            $mail->setFrom('otp@amsystem.codes', 'E-Challan');
+            $mail->addAddress($email);
+            $mail->addAddress($email);
+            $mail->isHTML(true);
+            $messageFile = $template;
+            $message = file_get_contents($messageFile);
+            $message = str_replace("%email%", $email, $message);
+            $message = str_replace("%password%", $new_pass, $message);               //Set email format to HTML
+            $mail->Subject = 'Your Password Request Has Been Approved!';
+            $mail->MsgHTML($message);
+            $mail->AltBody = 'Your password reset request has been declined.';
+            $mail->send();
             return true;
         }
-    }
+        catch (Exception $e) {
+            return false;
+        }
+      }
 
-    function getAccounts($query){
+      else{
 
-      $result = $this->conn->query($query);
-      return $result;
+        $mail = new PHPMailer(true);
 
-    }
-
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.mailgun.org';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'otp@amsystem.codes';
+            $mail->Password   = '8a801b07a93c183f930b212b2f718fcf-0677517f-c4783eaa';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+            $mail->setFrom('otp@amsystem.codes', 'E-Challan');
+            $mail->addAddress($email);
+            $mail->addAddress($email);
+            $mail->isHTML(true);
+            $messageFile = $template;
+            $message = file_get_contents($messageFile);
+            $mail->Subject = 'Your Password Request Has Been Declined';
+            $mail->MsgHTML($message);
+            $mail->AltBody = 'Your password reset request has been declined.';
+            $mail->send();
+            return true;
+        }
+        catch (Exception $e) {
+            return false;
+        }
+      }
+   }
 }
 
+
+if(isset($_POST['accept'])){
+
+  $email = $_POST['accept'];
+  $send = new RequestRecovery();
+  $new_pass =$send->passwordGenerator(6);
+  $encrypted = md5($new_pass);
+  $send->changePassword($encrypted, $email);
+  $send->removeRequest($email);
+  $bool =$send->sendMail("success", $email, "./template/accepted.html", $new_pass);
+
+  if($bool){
+
+    $error_status = "Operation Completed";
+    $color_status = "success";
+  }
+
+  else{
+      $error_status = "Oops! Something went wrong";
+      $color_status = "danger";
+  }
+}
+
+
+if(isset($_POST['decline'])){
+
+  $email = $_POST['decline'];
+  $send = new RequestRecovery();
+  $send->removeRequest($email);
+  $bool = $send->sendMail("decline", $email, "./template/declined.html","");
+  if($bool){
+
+    $error_status = "Operation Completed";
+    $color_status = "success";
+
+  }
+
+  else{
+      $error_status = "Oops! Something went wrong";
+      $color_status = "danger";
+  }
+
+}
 
 ?>
 
@@ -298,6 +415,20 @@ class RequestRecovery{
                       </div>
                     </div>
 
+
+                    <?php
+                      if(!empty($error_status)):
+
+                        echo "
+                        <div class='alert alert-".$color_status." alert-dismissible' role='alert'>
+                          ".$error_status."
+                          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>
+                        ";
+
+                      endif;
+                      ?>
+
                <!-- Bordered Table -->
                <div class="card">
                  <div class="card-body">
@@ -326,18 +457,18 @@ class RequestRecovery{
                              while ($row = mysqli_fetch_array($data)) {
                               // code...
                                 ?>
-                                <form method="post" action="edit.php">
+                                <form method="post">
                                 <tr>
                                   <td><?php echo $row['email']; ?></td>
                                   <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <?php echo $row['traffic_id']; ?></td>
-                                  <td> Raymon Bikram Basnyat</td>
+                                  <td> <?php echo $row['firstname']." ".$row['lastname']; ?></td>
                                   <td><span class="badge bg-label-<?php if($row['account_status'] == 1){echo "success";} else{echo "danger";} ?> me-1"> <?php if($row['account_status'] == 1){echo "Active";} else{echo "Disable";} ?></span></td>
                                   <td>
-                                  <button type="submit" class="btn btn-success" data-bs-toggle="modal" name='tid' data-bs-target="#basicModal" value='<?php echo $row['traffic_id'];?>'>
+                                  <button type="submit" class="btn btn-success" name="accept" value='<?php echo $row['email'];?>'>
                                     <i class='tf-icons bx bx-check'></i>&nbsp; Accept
                                   </button>
-                                  <button type="submit" class="btn btn-danger" data-bs-toggle="modal" name='tid' data-bs-target="#basicModal" value='<?php echo $row['traffic_id'];?>'>
-                                    <i class='tf-icons bx bx-x'></i>&nbsp; Reject
+                                  <button type="submit" class="btn btn-danger" name="decline" value='<?php echo $row['email'];?>'>
+                                    <i class='tf-icons bx bx-x'></i>&nbsp; Decline
                                   </button>
                                   </td>
                                 </tr>

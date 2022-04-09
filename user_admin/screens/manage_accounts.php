@@ -33,7 +33,7 @@ class ManageAccounts{
   }
 
   function getAccounts(){
-      $data = array();
+
       $sql = "SELECT * FROM `traffic_logs` WHERE traffic_id != '' ";
       $result = $this->conn->query($sql);
       return $result;
@@ -61,19 +61,13 @@ if(isset($_POST['create'])){
     $create = new ManageAccounts();
     $bool = $create->createAccount($_POST['first'], $_POST['last'], $_POST['id'],$_POST['email'],$_POST['ranks'],$_POST['password']);
     if($bool){
-
       $error_status = "User has been created";
       $color_status = "success";
-
     }
-
     else{
-
       $error_status = "Oops! Something went wrong";
       $color_status = "danger";
-
     }
-
 }
 
 ?>

@@ -38,8 +38,6 @@ class EditProfile{
     $sql = "SELECT * FROM `traffic_logs` WHERE traffic_id = '$traffic'";
     $result = $this->conn->query($sql);
 
-
-
     if($row = $result->fetch_assoc()){
 
         $indi = $row['indicator'];
@@ -408,8 +406,6 @@ if(isset($_POST['status'])){
                           }
 
                         ?>
-
-
                         <hr class="my-0" />
                         <div class="card-body">
                           <form id="formAccountSettings" method="POST" action="edit.php">
@@ -423,7 +419,6 @@ if(isset($_POST['status'])){
                                   name="firstname"
                                   placeholder="Raymon"
                                   value= "<?php echo $row['firstname']?>"
-                                  autofocus
                                 />
                               </div>
                               <div class="mb-3 col-md-6">

@@ -1,15 +1,7 @@
 <?php
 
-require("../../src/Exception.php");
-require("../../src/PHPMailer.php");
-require("../../src/POP3.php");
-require("../../src/SMTP.php");
 include("../../DBM/getConnection.php");
 
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 class ChallanHistory{
 
@@ -31,58 +23,7 @@ class ChallanHistory{
 
   }
 
-  function sendMail(){
-
-
-  }
-
 }
-
-if(isset($_POST['sendMail'])){
-
-
-  $mail = new PHPMailer(true);
-
-  try {
-      //Server settings
-      $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-      $mail->isSMTP();                                            //Send using SMTP
-      $mail->Host       = 'smtp.mailgun.org';                     //Set the SMTP server to send through
-      $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = 'otp@amsystem.codes';                     //SMTP username
-      $mail->Password   = '8a801b07a93c183f930b212b2f718fcf-0677517f-c4783eaa';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-      //Recipients
-      $mail->setFrom('otp@amsystem.codes', 'E-Challan');
-      $mail->addAddress('rbasnyat666@gmail.com');     //Add a recipient
-      $mail->addAddress('rbasnyat666@gmail.com');               //Name is optional
-
-      //Content
-      $mail->isHTML(true);
-
-      $email = "Raymon";
-      $new_pass = "123456";
-
-      $messageFile = "mail.html";
-      $message = file_get_contents($messageFile);
-      $message = str_replace("%name%",$email,$message);
-      $message = str_replace("%password%", $new_pass, $message);               //Set email format to HTML
-      $mail->Subject = 'Your Password Request Has Been Approved!';
-      $mail->MsgHTML($message);
-      $mail->AltBody = 'Your password reset request has been Approved. Your new temporary password is '.$new_pass;
-
-      $mail->send();
-      echo 'Message has been sent';
-  } catch (Exception $e) {
-      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-  }
-
-
-
-}
-
 
 ?>
 
@@ -315,12 +256,6 @@ if(isset($_POST['sendMail'])){
                       </div>
                     </div>
                   </div>
-
-                  <form method="post">
-                      <button class="btn btn-primary" type="submit" name="sendMail"> Send Mail </button>
-                  </form>
-
-
                 <?php
               }
                 ?>

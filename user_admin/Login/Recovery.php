@@ -14,6 +14,18 @@ class Recovery{
 
   }
 
+  function checkDatabase($email)
+  {
+      $sql = "SELECT COUNT(DISTINCT email) as count From requests WHERE email = '$email'";
+      $result = $this->conn->query($sql);
+      $count = mysqli_fetch_object($result);
+      if ($count->count == 1) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+
   function sendRequest($email){
 
     $sql = "INSERT INTO requests(`email`, `status`) VALUES ('$email','2')";
@@ -30,20 +42,29 @@ class Recovery{
 if(isset($_POST['submit'])){
 
   $request = new Recovery();
-  $bool = $request->sendRequest($_POST['email']);
 
-  if($bool){
-    $error_status = "Success your request has been sent!";
-    $color_status = "success";
+  $check = $request->checkDatabase($_POST['email']);
+
+  if(!$check){
+
+      $bool = $request->sendRequest($_POST['email']);
+      if($bool){
+        $error_status = "Success your request has been sent!";
+        $color_status = "success";
+      }
+      else{
+
+        $error_status = "Oops! Something went wrong";
+        $color_status = "danger";
+
+      }
   }
 
   else{
-
-    $error_status = "Oops! Something went wrong";
+    $error_status = "Request already in process!";
     $color_status = "danger";
 
   }
-
 
 }
 
