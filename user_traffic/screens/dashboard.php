@@ -1,8 +1,65 @@
 <?php
 
+    include("../../DBM/getConnection.php");
+
+    $error_status = "";
+    $color_status = "";
+    $challan_status = "";
+    $data = array();
 
 
+  class CreateChallan{
 
+      function __construct(){
+
+        $object = new Connection();
+        $this->conn = $object->getConnection("echallan");
+
+      }
+
+      function challanGenerator($chars){
+        $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+        return substr(str_shuffle($data), 0, $chars);
+      }
+
+      function create($liscence, $plate, $name, $cause, $phone, $date, $time, $traffic, $amount){
+
+        $generate = new CreateChallan();
+        $challanId =  $generate->challanGenerator(7);
+        $sql = "INSERT INTO `challan`(`challan_id`, `license_number`, `vehicle_number`, `user_name`, `cause`, `traffic_id`, `time_stamp`, `date_time`, `charge`) VALUES ('$challanId','$liscence','$plate','$name','$cause','$traffic','$time','$date','$amount')";
+        if($this->conn->query($sql)){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+      }
+
+      function previewChallan($liscence){
+
+        $sql = "SELECT * FROM `challan` WHERE license_number = '$liscence'";
+        $result = $this->conn->query($sql);
+        $row = mysqli_fetch_array($result);
+        return $row;
+    }
+
+  }
+
+  if(isset($_POST['create'])){
+
+      $create = new CreateChallan();
+      $bool = $create->create($_POST['liscence'], $_POST['plate'], $_POST['name'], $_POST['cause'], $_POST['phone'], $_POST['date'], $_POST['time'], $_POST['id'], $_POST['amount']);
+      if($bool){
+        $data = $create->previewChallan($_POST['liscence']);
+        $error_status = "Operation Sucessful";
+        $color_status = "success";
+      }
+      else{
+        $error_status = "Oops! Something went wrong";
+        $color_status = "danger";
+      }
+  }
 
 
  ?>
@@ -195,68 +252,124 @@
 
           </nav>
 
+
+
           <!-- / Navbar -->
 
+          <form method="post">
           <!-- Content wrapper -->
           <div class="content-wrapper">
+
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
+              <?php
+                if(!empty($error_status)):
+
+                  echo "
+                  <div class='alert alert-".$color_status." alert-dismissible' role='alert'>
+                    ".$error_status."
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>
+                  ";
+
+                endif;
+                ?>
               <!-- Basic Layout -->
               <div class="row">
                 <div class="col-xl">
-                  <div class="card mb-2">
-
-                    <div class="card-body mb-1">
-                        <h4> Create Challan </h4>
-                      <form>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-fullname">Liscence No</label>
-                          <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" />
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="mb-3 row">
+                        <label for="html5-text-input" class="col-md-2 col-form-label">Liscence</label>
+                        <div class="col-md-10">
+                          <input class="form-control" type="text" name="liscence" placeholder="4787" id="html5-text-input" />
                         </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Company</label>
-                          <input type="text" class="form-control" id="basic-default-company" placeholder="ACME Inc." />
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-search-input" class="col-md-2 col-form-label">Plate No</label>
+                        <div class="col-md-10">
+                          <input class="form-control" type="search"  name="plate" placeholder="BA 7J4787" id="html5-search-input" />
                         </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-email">Email</label>
-                          <div class="input-group input-group-merge">
-                            <input
-                              type="text"
-                              id="basic-default-email"
-                              class="form-control"
-                              placeholder="john.doe"
-                              aria-label="john.doe"
-                              aria-describedby="basic-default-email2"
-                            />
-                            <span class="input-group-text" id="basic-default-email2">@example.com</span>
-                          </div>
-                          <div class="form-text">You can use letters, numbers & periods</div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-email-input" class="col-md-2 col-form-label">Name</label>
+                        <div class="col-md-10">
+                          <input class="form-control" type="text" name="name" placeholder="xxxxxx" id="html5-email-input" />
                         </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-phone">Phone No</label>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-url-input" class="col-md-2 col-form-label">Cause</label>
+                        <div class="col-md-10">
                           <input
+                            class="form-control"
                             type="text"
-                            id="basic-default-phone"
-                            class="form-control phone-mask"
-                            placeholder="658 799 8941"
+                            name = "cause"
+                            id="html5-url-input"
                           />
                         </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-message">Message</label>
-                          <textarea
-                            id="basic-default-message"
-                            class="form-control"
-                            placeholder="Hi, Do you have a moment to talk Joe?"
-                          ></textarea>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-tel-input" class="col-md-2 col-form-label">Phone</label>
+                        <div class="col-md-10">
+                          <div class="input-group input-group-merge">
+                            <span class="input-group-text">Nepal (+977)</span>
+                            <input
+                              type="text"
+                              id="phoneNumber"
+                              name="phone"
+                              class="form-control"
+                            />
+                          </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send</button>
-                      </form>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-date-input" class="col-md-2 col-form-label">Date</label>
+                        <div class="col-md-10">
+                          <input class="form-control" name="date" type="date"/>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-time-input" class="col-md-2 col-form-label">Time</label>
+                        <div class="col-md-10">
+                          <input class="form-control" name="time" type="time"  />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-email-input" class="col-md-2 col-form-label">Traffic Id</label>
+                        <div class="col-md-10">
+                          <input class="form-control" type="text" name="id" placeholder="210076" id="html5-email-input" />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-email-input" class="col-md-2 col-form-label">Amount</label>
+                        <div class="col-md-10">
+                          <div class="input-group input-group-merge">
+                            <span class="input-group-text">Rs</span>
+                            <input
+                              type="text"
+                              id="amount"
+                              name="amount"
+                              class="form-control"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="demo-inline-spacing">
+                        <button type="submit" name="create" class="btn btn-primary">
+                          <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Create Challan
+                        </button>
+                      </div>
+
+                    </form>
+
                     </div>
                   </div>
                 </div>
                 <div class="col-xl">
                   <div class="card">
-                    <div class="card-body mb-3">
+                    <div class="card-body mb-5">
+
                       <div style="color: #333; height: 100%; width: 100%;" height="100%" width="100%">
                             <table  cellspacing="0" style="border-collapse: collapse; padding: 40px; width: 100%;" width="100%">
                               <tbody>
@@ -266,7 +379,7 @@
                                           <table width="100%" cellspacing="0" style="border-collapse: collapse;">
                                               <tbody>
                                                   <tr>
-                                                      <td style="padding: 0;">
+                                                      <td style="padding: 3px;">
 
                                                         <div class="app-brand demo mb-1">
                                                           <a href="index.html" class="app-brand-link">
@@ -325,7 +438,7 @@
                                                                 </g>
                                                               </svg>
                                                             </span>
-                                                            <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan</span>
+                                                            <span class="app-brand-text demo  fw-bolder ms-2 text-dark">E-Challan</span>
                                                           </a>
 
                                                           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -350,7 +463,7 @@
                                           <table width="100%" style="background: #f9f9f9; border-bottom: 1px solid #eee; border-collapse: collapse; color: #999;">
                                               <tbody>
                                                   <tr>
-                                                      <td width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;">रु 2000.00</strong> due</td>
+                                                      <td width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;">रु <?php if($data){ echo $data[7];} else{echo "xxxxx";} ?></strong> due</td>
                                                       <td align="right" width="50%" style="padding: 20px;"><span class="il"> Challan #3440952 </span></td>
                                                   </tr>
                                               </tbody>
@@ -369,7 +482,7 @@
                                               <td valign="top"  style="padding: 20px;">
                                                   <h3
                                                       style="
-                                                          border-bottom: 1px solid #000;
+                                                          border-bottom: 2px solid #000;
                                                           color: #000;
                                                           font-size: 18px;
                                                           line-height: 1.2;
@@ -380,27 +493,35 @@
                                                   >
                                                       Summary
                                 </h3>
+
+
+                                <?php
+
+
+
+
+                                 ?>
                                 <table cellspacing="0" style="border-collapse: collapse; margin-bottom: 40px;">
                                     <tbody>
                                         <tr>
                                             <td style="padding: 5px 0;">Liscence Number: &emsp;&emsp;</td>
-                                            <td align="right" style="padding: 5px 0;">435345</td>
+                                            <td align="right" style="padding: 5px 0;"><?php if($data){ echo $data[0];} else{echo "xxxxx";} ?></td>
                                         </tr>
                                         <tr>
                                             <td style="padding: 5px 0;">Vehicle No. Plate:</td>
-                                            <td align="right" style="padding: 5px 0;">B ABO123</td>
+                                            <td align="right" style="padding: 5px 0;"><?php if($data){ echo $data[1];} else{echo "xxxxx";} ?></td>
                                         </tr>
                                         <tr>
-                                            <td style="padding: 5px 0;"> Location: </td>
-                                            <td align="right" style="padding: 5px 0;">  Naxal, Kathmandu</td>
+                                            <td style="padding: 5px 0;"> Name: </td>
+                                            <td align="right" style="padding: 5px 0;"><?php if($data){ echo $data[3];} else{echo "xxxxx";} ?></td>
                                         </tr>
                                         <tr>
                                             <td style="padding: 5px 0;"> Challan Cause: </td>
-                                            <td align="right" style="padding: 5px 0;">  Overspeeding</td>
+                                            <td align="right" style="padding: 5px 0;"><?php if($data){ echo $data[8];} else{echo "xxxxx";} ?></td>
                                         </tr>
                                         <tr>
-                                            <td style="border-bottom: 1px solid #000; border-top: 1px solid #000; color: #000; padding: 5px 0;">Amount</td>
-                                            <td align="right" style="border-bottom: 1px solid #000; border-top: 1px solid #000; color: #000; padding: 5px 0;">रु 2000.00</td>
+                                            <td style="border-bottom: 2px solid #000; border-top: 2px solid #000; color: #000; padding: 5px 0;">Amount</td>
+                                            <td align="right" style="border-bottom: 2px solid #000; border-top: 2px solid #000; color: #000; padding: 5px 0;">रु <?php if($data){ echo $data[7];} else{echo "xxxxx";} ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
