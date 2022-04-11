@@ -217,6 +217,7 @@ if(isset($_POST['submit'])){
             ?>
                <!-- /Logo -->
                <h4 class="mb-2">Forgot Password? 🔒</h4>
+               <!--  ask for email from the user  to send a recovery link -->
                <p class="mb-4">Enter your email to send Recovery Request to the Admin</p>
                <form id="formAuthentication" class="mb-3" method="POST">
                  <div class="mb-3">
@@ -231,8 +232,10 @@ if(isset($_POST['submit'])){
                      required
                    />
                  </div>
+                 <!-- button for send reset link -->
                  <button type="submit"name= "submit" class="btn btn-primary d-grid w-100">Send Reset Link</button>
                </form>
+               <!-- back to login after password reset -->
                <div class="text-center">
                  <a href="http://localhost/E-Challan/user_admin/Login/Login.php" class="d-flex align-items-center justify-content-center">
                    <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>

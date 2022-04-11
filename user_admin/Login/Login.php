@@ -95,14 +95,13 @@ if (isset($_POST['submit'])) {
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <!-- Page CSS -->
+    
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
     <!-- Helpers -->
     <script src="../../assets/vendor/js/helpers.js"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  
     <script src="../../assets/js/config.js"></script>
   </head>
 
@@ -195,6 +194,7 @@ if (isset($_POST['submit'])) {
 
               <form id="formAuthentication" class="mb-3" method="POST">
                 <div class="mb-3">
+                  <!-- place holder for username -->
                   <label for="email" class="form-label">Username</label>
                   <input
                     type="text"
@@ -208,10 +208,12 @@ if (isset($_POST['submit'])) {
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
                     <a href="http://localhost/E-Challan/user_admin/Login/Recovery.php">
+                      <!-- forgot password redirection link -->
                       <small>Forgot Password?</small>
                     </a>
                   </div>
                   <div class="input-group input-group-merge">
+                    <!-- input for user password -->
                     <input
                       type="password"
                       id="password"
@@ -226,6 +228,7 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" />
+                    <!-- remember me option for user admin -->
                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                   </div>
                 </div>
@@ -240,8 +243,7 @@ if (isset($_POST['submit'])) {
       </div>
     </div>
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
+    <!-- link to external js file -->
     <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../assets/vendor/libs/popper/popper.js"></script>
     <script src="../../assets/vendor/js/bootstrap.js"></script>
