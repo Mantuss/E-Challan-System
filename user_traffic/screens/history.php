@@ -3,10 +3,7 @@
 include("../../DBM/getConnection.php");
 
 
-$error_status = "";
-$color_status = "";
-
-class ManageAccounts{
+class ChallanHistory{
 
   private $conn;
 
@@ -17,57 +14,15 @@ class ManageAccounts{
 
   }
 
-  private function checkExisting($id)
-  {
+  function getChallanHistory(){
 
-      $sql = "SELECT COUNT(DISTINCT traffic_id) as count From traffic_logs WHERE traffic_id = '$id'";
-      $result = $this->conn->query($sql);
-      $count = mysqli_fetch_object($result);
+    $data = array();
+    $sql = "SELECT * FROM `challan` WHERE challan_id != '' ";
+    $result = $this->conn->query($sql);
+    return $result;
 
-      if ($count->count == 1) {
-          return false;
-      } else {
-          return true;
-      }
   }
 
-  function getAccounts(){
-
-      $sql = "SELECT * FROM `traffic_logs` WHERE traffic_id != '' ";
-      $result = $this->conn->query($sql);
-      return $result;
-  }
-
-  function createAccount($first, $last, $traffic_id, $email, $password){
-
-      $bool = $this->checkExisting($traffic_id);
-
-      if ($bool) {
-          $encrypted = md5($password);
-          $sql = "INSERT INTO traffic_logs(`traffic_id`, `account_status`, `traffic_pass`, `email`,`firstname`, `lastname`) VALUES ('$traffic_id', '1','$encrypted','$email', '$first', '$last')";
-          $this->conn->query($sql);
-          return true;
-      }
-      else {
-          return false;
-      }
-  }
-
-}
-
-
-if(isset($_POST['create'])){
-
-    $create = new ManageAccounts();
-    $bool = $create->createAccount($_POST['first'], $_POST['last'], $_POST['id'], $_POST['email'],$_POST['password']);
-    if($bool){
-      $error_status = "User has been created";
-      $color_status = "success";
-    }
-    else{
-      $error_status = "Oops! Something went wrong";
-      $color_status = "danger";
-    }
 }
 
 ?>
@@ -92,7 +47,7 @@ if(isset($_POST['create'])){
      <meta name="description" content="" />
 
      <!-- Favicon -->
-     <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
+     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
      <!-- Fonts -->
      <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -200,24 +155,15 @@ if(isset($_POST['create'])){
            <ul class="menu-inner py-1">
              <!-- Dashboard -->
              <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/dashboard.php" class="menu-link">
+               <a href="http://localhost/E-Challan/user_traffic/screens/dashboard.php" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
                  <div data-i18n="Analytics">Dashboard</div>
                </a>
              </li>
 
              <!-- Dashboard -->
-             <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/inbox_requests.php" class="menu-link">
-                 <i class='menu-icon bx bxs-inbox'></i>
-                 <div data-i18n="Analytics">Inbox / Requests</div>
-               </a>
-             </li>
-
-
-             <!-- Dashboard -->
-             <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/history.php" class="menu-link">
+             <li class="menu-item active">
+               <a href="http://localhost/E-Challan/user_traffic/screens/history.php" class="menu-link">
                 <i class='menu-icon bx bx-history' ></i>
                  <div data-i18n="Analytics">History</div>
                </a>
@@ -225,8 +171,8 @@ if(isset($_POST['create'])){
 
 
              <!-- Dashboard -->
-             <li class="menu-item active">
-               <a href="http://localhost/E-Challan/user_admin/screens/manage_accounts.php" class="menu-link">
+             <li class="menu-item">
+               <a href="http://localhost/E-Challan/user_traffic/screens/manage_accounts.php" class="menu-link">
                 <i class='menu-icon bx bxs-user-account'></i>
                  <div data-i18n="Analytics">Manage Accounts</div>
                </a>
@@ -274,152 +220,36 @@ if(isset($_POST['create'])){
 
              <div class="container-xxl flex-grow-1 container-p-y">
 
+               <?php
 
-               <!-- Modal -->
-               <form method="post">
-               <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-                 <div class="modal-dialog modal-dialog-centered" role="document">
-                   <div class="modal-content">
-                     <div class="modal-header">
-                       <h5 class="modal-title" id="modalCenterTitle">Add an Account</h5>
-                       <button
-                         type="button"
-                         class="btn-close"
-                         data-bs-dismiss="modal"
-                         aria-label="Close"
-                       ></button>
-                     </div>
-                     <div class="modal-body">
+                $history = new ChallanHistory();
+                $result = $history->getChallanHistory();
 
-                       <div class="row g-2 mb-3">
-                         <div class="col mb-0">
-                           <label for="emailWithTitle" class="form-label">First Name</label>
-                           <input
-                             type="text"
-                             id="emailWithTitle"
-                             class="form-control"
-                             name="first"
-                             placeholder="Raymon"
-                           />
-                         </div>
-                         <div class="col mb-0">
-                           <label for="dobWithTitle" class="form-label"> Last Name</label>
-                           <input
-                             type="text"
-                             id="dobWithTitle"
-                             class="form-control"
-                             placeholder="Basnet"
-                             name="last"
-                           />
-                         </div>
-                       </div>
-
-                       <div class="row g-2 mb-3">
-                         <div class="col mb-0">
-                           <label for="emailWithTitle" class="form-label">Email</label>
-                           <input
-                             type="text"
-                             id="emailWithTitle"
-                             class="form-control"
-                             placeholder="xxxx@xxx.xx"
-                             name="email"
-                             required
-                           />
-                         </div>
-                         <div class="col mb-0">
-                           <label for="dobWithTitle" class="form-label"> Traffic Id </label>
-                           <input
-                             type="text"
-                             id="dobWithTitle"
-                             class="form-control"
-                             name = "id"
-                             required
-                           />
-                         </div>
-                       </div>
-
-                       <div class="row g-2">
-                           <label for="dobWithTitle" class="form-label"> Password</label>
-                           <input
-                             type="text"
-                             id="dobWithTitle"
-                             class="form-control"
-                             placeholder="xxxxxxx"
-                             name = "password"
-                             required
-                           />
-                       </div>
-                     </div>
-                     <div class="modal-footer">
-                       <button type="submit" name="create" class="btn btn-primary">Save changes</button>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-
-             </form>
-
-             <?php
-
-             if(!empty($error_status)):
-
-               echo "
-               <div class='alert alert-".$color_status." alert-dismissible' role='alert'>
-                 ".$error_status."
-                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-               </div>
-               ";
-
-             endif;
-             ?>
-
-
-               <!-- Bordered Table -->
-               <div class="card">
-                 <div class="card-body">
-                    <button type="button" class="btn btn-primary mb-4"   data-bs-toggle="modal"
-                      data-bs-target="#modalCenter">
-                            <i class='tf-icons bx bx-add-to-queue'></i>&nbsp; Add Account
-                    </button>
-                   <div class="table-responsive text-nowrap">
-                     <table class="table table-bordered">
-                       <thead>
-                         <tr>
-                           <th>&nbsp;&nbsp;&nbsp; Unique id</th>
-                           <th> Email</th>
-                           <th> Username </th>
-                           <th>Status</th>
-                           <th>Operations</th>
-                         </tr>
-                       </thead>
-                       <tbody>
-                         <?php
-                           $obj = new ManageAccounts();
-                           $result = $obj->getAccounts();
-                           while ($row = mysqli_fetch_array($result)) {
-                            ?>
-                            <form method="post" action="edit.php">
-                            <tr>
-                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <?php echo $row['traffic_id']; ?></td>
-                              <td> <?php echo $row['email']; ?> </td>
-                              <td> <?php echo $row['firstname']." ".$row['lastname'];  ?> </td>
-                              <td><span class="badge bg-label-<?php if($row['account_status'] == 1){echo "success";} else{echo "danger";} ?> me-1"> <?php if($row['account_status'] == 1){echo "Active";} else{echo "Disable";} ?></span></td>
-                              <td>
-                              <button type="submit" class="btn btn-primary" data-bs-toggle="modal" name='tid' data-bs-target="#basicModal" value='<?php echo $row['traffic_id'];?>'>
-                                <i class='tf-icons bx bx-edit-alt'></i>&nbsp; Edit
-                              </button>
-                            </td>
-                          </tr>
-                        </form>
-                          <?php
-                            }
-                          ?>
-                       </tbody>
-                     </table>
-                   </div>
-                 </div>
-               </div>
-               <!--/ Bordered Table -->
+                while($row = mysqli_fetch_array($result)){
+                  ?>
+                  <div class="row mb-3">
+                    <div class="col-md">
+                      <div class="card mb-3">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img class="card-img card-img-left" src="../assets/img/elements/12.jpg" alt="Card image" />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">Challan No: <?php echo $row['challan_id'] ?></h5>
+                              <h5 class="card-title">रू <?php echo $row['charge'] ?></h5>
+                              <p class="card-text">
+                              </p>
+                              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <?php
+              }
+                ?>
 
              <div class="content-backdrop fade"></div>
            </div>

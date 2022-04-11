@@ -50,11 +50,8 @@ class EditProfile{
 
         return false;
     }
-
     return false;
-
   }
-
 }
 
 
