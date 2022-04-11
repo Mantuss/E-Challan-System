@@ -2,6 +2,7 @@
 
 include("../../DBM/getConnection.php");
 
+session_start();
 $error_status = "";
 
 class Login
@@ -20,8 +21,7 @@ class Login
         $connection = new Connection();
         $conn = $connection->getConnection("echallan");
         $encrypted = md5($this->password);
-
-        $sql = "SELECT COUNT(DISTINCT admin_id) as count From super_admin WHERE admin_id = '$this->traffic_id' AND admin_pass = '$this->password' AND admin_status = 1";
+        $sql = "SELECT COUNT(DISTINCT traffic_id) as count From traffic_logs WHERE traffic_id = '$this->traffic_id' AND traffic_pass = '$encrypted' AND account_status = '1' ";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_fetch_object($result);
         if ($count->count == 1) {
@@ -35,7 +35,7 @@ class Login
     {
         $bool = $this->checkDatabase();
         if ($bool) {
-          echo $bool;
+          $_SESSION['islogged'] = $this->traffic_id;
           header("Location: ../screens/dashboard.php");
           exit();
         }
@@ -173,7 +173,7 @@ if (isset($_POST['submit'])) {
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan <sub> Admin </sub></span>
+                  <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan</span>
                 </a>
 
               </div>
@@ -207,6 +207,9 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
+                    <a href="http://localhost/E-Challan/user_traffic/authentication/Recovery.php">
+                      <small>Forgot Password?</small>
+                    </a>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
