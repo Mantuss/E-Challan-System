@@ -191,7 +191,7 @@
                   <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item active">
-                      <a href="http://localhost/E-Challan/user_admin/screens/dashboard.php" class="menu-link">
+                      <a href="http://localhost/E-Challan/user_traffic/screens/dashboard.php" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Dashboard</div>
                       </a>
@@ -200,7 +200,7 @@
 
                     <!-- Dashboard -->
                     <li class="menu-item">
-                      <a href="http://localhost/E-Challan/user_admin/screens/history.php" class="menu-link">
+                      <a href="http://localhost/E-Challan/user_traffic/screens/history.php" class="menu-link">
                         <i class='menu-icon bx bx-history' ></i>
                         <div data-i18n="Analytics">History</div>
                       </a>
@@ -209,7 +209,7 @@
 
                     <!-- Dashboard -->
                     <li class="menu-item">
-                      <a href="http://localhost/E-Challan/user_admin/screens/manage_accounts.php" class="menu-link">
+                      <a href="" class="menu-link">
                         <i class='menu-icon bx bxs-user-account'></i>
                         <div data-i18n="Analytics">Manage Accounts</div>
                       </a>

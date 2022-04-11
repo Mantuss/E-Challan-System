@@ -2,6 +2,7 @@
 
 include("../../DBM/getConnection.php");
 
+session_start();
 $error_status = "";
 
 class Login
@@ -20,8 +21,7 @@ class Login
         $connection = new Connection();
         $conn = $connection->getConnection("echallan");
         $encrypted = md5($this->password);
-
-        $sql = "SELECT COUNT(DISTINCT admin_id) as count From super_admin WHERE admin_id = '$this->traffic_id' AND admin_pass = '$this->password' AND admin_status = 1";
+        $sql = "SELECT COUNT(DISTINCT traffic_id) as count From traffic_logs WHERE traffic_id = '$this->traffic_id' AND traffic_pass = '$encrypted' AND account_status = '1' ";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_fetch_object($result);
         if ($count->count == 1) {
@@ -35,7 +35,7 @@ class Login
     {
         $bool = $this->checkDatabase();
         if ($bool) {
-          echo $bool;
+          $_SESSION['islogged'] = $this->traffic_id;
           header("Location: ../screens/dashboard.php");
           exit();
         }
@@ -95,13 +95,14 @@ if (isset($_POST['submit'])) {
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    
+    <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
     <!-- Helpers -->
     <script src="../../assets/vendor/js/helpers.js"></script>
 
-  
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
   </head>
 
@@ -172,7 +173,7 @@ if (isset($_POST['submit'])) {
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan <sub> Admin </sub></span>
+                  <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan</span>
                 </a>
 
               </div>
@@ -194,7 +195,6 @@ if (isset($_POST['submit'])) {
 
               <form id="formAuthentication" class="mb-3" method="POST">
                 <div class="mb-3">
-                  <!-- place holder for username -->
                   <label for="email" class="form-label">Username</label>
                   <input
                     type="text"
@@ -207,16 +207,11 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
-<<<<<<< HEAD
-                    <a href="http://localhost/E-Challan/user_admin/Login/Recovery.php">
-                      <!-- forgot password redirection link -->
+                    <a href="http://localhost/E-Challan/user_traffic/authentication/Recovery.php">
                       <small>Forgot Password?</small>
                     </a>
-=======
->>>>>>> 819cb7f9ae24bcb338a3533c56d9b9ec076294af
                   </div>
                   <div class="input-group input-group-merge">
-                    <!-- input for user password -->
                     <input
                       type="password"
                       id="password"
@@ -231,7 +226,6 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <!-- remember me option for user admin -->
                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                   </div>
                 </div>
@@ -246,7 +240,8 @@ if (isset($_POST['submit'])) {
       </div>
     </div>
 
-    <!-- link to external js file -->
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
     <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../assets/vendor/libs/popper/popper.js"></script>
     <script src="../../assets/vendor/js/bootstrap.js"></script>
