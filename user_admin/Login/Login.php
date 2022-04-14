@@ -207,13 +207,6 @@ if (isset($_POST['submit'])) {
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
-<<<<<<< HEAD
-                    <a href="http://localhost/E-Challan/user_admin/Login/Recovery.php">
-                      <!-- forgot password redirection link -->
-                      <small>Forgot Password?</small>
-                    </a>
-=======
->>>>>>> 819cb7f9ae24bcb338a3533c56d9b9ec076294af
                   </div>
                   <div class="input-group input-group-merge">
                     <!-- input for user password -->
