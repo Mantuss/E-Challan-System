@@ -95,13 +95,13 @@ if (isset($_POST['submit'])) {
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    
+
     <!-- Page -->
     <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
     <!-- Helpers -->
     <script src="../../assets/vendor/js/helpers.js"></script>
 
-  
+
     <script src="../../assets/js/config.js"></script>
   </head>
 

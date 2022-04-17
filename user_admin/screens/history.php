@@ -23,6 +23,13 @@ class ChallanHistory{
 
   }
 
+  function getCauseImage($cause_no){
+
+    $sql = "SELECT images FROM `images` WHERE image_id = '$cause_no' ";
+    $images = $this->conn->query($sql);
+    return $images;
+  }
+
 }
 
 ?>
@@ -232,16 +239,22 @@ class ChallanHistory{
                <?php
 
                 $history = new ChallanHistory();
+
                 $result = $history->getChallanHistory();
 
                 while($row = mysqli_fetch_array($result)){
+
+                  $cause_no = $row['cause'];
+                  $images = $history->getCauseImage($cause_no);
+                  while($img = mysqli_fetch_array($images)){
+
                   ?>
                   <div class="row mb-3">
                     <div class="col-md">
                       <div class="card mb-3">
                         <div class="row g-0">
                           <div class="col-md-4">
-                            <img class="card-img card-img-left" src="../assets/img/elements/12.jpg" alt="Card image" />
+                            <img class="card-img card-img-left" src="<?php echo $img['images']; ?>" alt="Card image" />
                           </div>
                           <div class="col-md-8">
                             <div class="card-body">
@@ -257,11 +270,13 @@ class ChallanHistory{
                     </div>
                   </div>
                 <?php
+                
+                }
               }
                 ?>
 
              <div class="content-backdrop fade"></div>
-           </div>
+           </div>-
            <!-- Content wrapper -->
          </div>
          <!-- / Layout page -->
