@@ -237,7 +237,7 @@ if(isset($_POST['submit'])){
                </form>
                <!-- back to login after password reset -->
                <div class="text-center">
-                 <a href="http://localhost/E-Challan/user_admin/Login/Login.php" class="d-flex align-items-center justify-content-center">
+                 <a href="http://localhost/E-Challan/user_traffic/authentication/Login.php" class="d-flex align-items-center justify-content-center">
                    <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
                    Back to login
                  </a>

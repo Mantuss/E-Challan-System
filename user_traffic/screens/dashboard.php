@@ -1,5 +1,6 @@
 <?php
 
+    session_start();
     include("../../DBM/getConnection.php");
 
     $error_status = "";
@@ -249,7 +250,27 @@
               </div>
               <!-- /Search -->
 
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
 
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img src="../../images/profile_icon.webp" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="http://localhost/E-Challan/user_traffic/authentication/Logout.php">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Log Out</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
           </nav>
 
 
@@ -282,19 +303,19 @@
                       <div class="mb-3 row">
                         <label for="html5-text-input" class="col-md-2 col-form-label">Liscence</label>
                         <div class="col-md-10">
-                          <input class="form-control" type="text" name="liscence" placeholder="4787" id="html5-text-input" />
+                          <input class="form-control" type="text" name="liscence" id="html5-text-input" />
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label for="html5-search-input" class="col-md-2 col-form-label">Plate No</label>
                         <div class="col-md-10">
-                          <input class="form-control" type="search"  name="plate" placeholder="BA 7J4787" id="html5-search-input" />
+                          <input class="form-control" type="search"  name="plate" id="html5-search-input" />
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label for="html5-email-input" class="col-md-2 col-form-label">Name</label>
                         <div class="col-md-10">
-                          <input class="form-control" type="text" name="name" placeholder="xxxxxx" id="html5-email-input" />
+                          <input class="form-control" type="text" name="name"  id="html5-email-input" />
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -337,7 +358,8 @@
                       <div class="mb-3 row">
                         <label for="html5-email-input" class="col-md-2 col-form-label">Traffic Id</label>
                         <div class="col-md-10">
-                          <input class="form-control" type="text" name="id" placeholder="210076" id="html5-email-input" />
+                          <!-- value="<?php echo $_SESSION['islogged']; ?>" -->
+                          <input class="form-control" type="text" name="id"  id="html5-email-input"/>
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -448,7 +470,7 @@
 
                                                       </td>
                                                       <td style="font-size: 15px; color: #000; padding: 0; text-align: right;" align="right">
-                                                          August 04, 2018
+                                                          <?php if($data){ echo $data[5];} else{echo "xxxxx";} ?>
                                                       </td>
                                                   </tr>
                                               </tbody>
@@ -464,7 +486,7 @@
                                               <tbody>
                                                   <tr>
                                                       <td width="50%" style="padding: 20px;"><strong style="color: #333; font-size: 24px;">रु <?php if($data){ echo $data[7];} else{echo "xxxxx";} ?></strong> due</td>
-                                                      <td align="right" width="50%" style="padding: 20px;"><span class="il"> Challan #3440952 </span></td>
+                                                      <td align="right" width="50%" style="padding: 20px;"><span class="il"><?php if($data){ echo $data[0];} else{echo "xxxxx";} ?></span></td>
                                                   </tr>
                                               </tbody>
                                           </table>

@@ -23,13 +23,6 @@ class ChallanHistory{
 
   }
 
-  function getCauseImage($cause_no){
-
-    $sql = "SELECT images FROM `images` WHERE image_id = '$cause_no' ";
-    $images = $this->conn->query($sql);
-    return $images;
-  }
-
 }
 
 ?>
@@ -162,24 +155,15 @@ class ChallanHistory{
            <ul class="menu-inner py-1">
              <!-- Dashboard -->
              <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/dashboard.php" class="menu-link">
+               <a href="http://localhost/E-Challan/user_traffic/screens/dashboard.php" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
                  <div data-i18n="Analytics">Dashboard</div>
                </a>
              </li>
 
              <!-- Dashboard -->
-             <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/inbox_requests.php" class="menu-link">
-                 <i class='menu-icon bx bxs-inbox'></i>
-                 <div data-i18n="Analytics">Inbox / Requests</div>
-               </a>
-             </li>
-
-
-             <!-- Dashboard -->
              <li class="menu-item active">
-               <a href="http://localhost/E-Challan/user_admin/screens/history.php" class="menu-link">
+               <a href="http://localhost/E-Challan/user_traffic/screens/history.php" class="menu-link">
                 <i class='menu-icon bx bx-history' ></i>
                  <div data-i18n="Analytics">History</div>
                </a>
@@ -188,7 +172,7 @@ class ChallanHistory{
 
              <!-- Dashboard -->
              <li class="menu-item">
-               <a href="http://localhost/E-Challan/user_admin/screens/manage_accounts.php" class="menu-link">
+               <a href="http://localhost/E-Challan/user_traffic/screens/manage_accounts.php" class="menu-link">
                 <i class='menu-icon bx bxs-user-account'></i>
                  <div data-i18n="Analytics">Manage Accounts</div>
                </a>
@@ -239,22 +223,16 @@ class ChallanHistory{
                <?php
 
                 $history = new ChallanHistory();
-
                 $result = $history->getChallanHistory();
 
                 while($row = mysqli_fetch_array($result)){
-
-                  $cause_no = $row['cause'];
-                  $images = $history->getCauseImage($cause_no);
-                  while($img = mysqli_fetch_array($images)){
-
                   ?>
                   <div class="row mb-3">
                     <div class="col-md">
                       <div class="card mb-3">
                         <div class="row g-0">
                           <div class="col-md-4">
-                            <img class="card-img card-img-left" src="<?php echo $img['images']; ?>" alt="Card image" />
+                            <img class="card-img card-img-left" src="../../images/Overspeeding.jpg" alt="Card image" />
                           </div>
                           <div class="col-md-8">
                             <div class="card-body">
@@ -270,13 +248,11 @@ class ChallanHistory{
                     </div>
                   </div>
                 <?php
-                
-                }
               }
                 ?>
 
              <div class="content-backdrop fade"></div>
-           </div>-
+           </div>
            <!-- Content wrapper -->
          </div>
          <!-- / Layout page -->

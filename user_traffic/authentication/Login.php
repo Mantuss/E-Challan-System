@@ -51,7 +51,18 @@ if (isset($_POST['submit'])) {
 
 }
 
+
+if(isset($_SESSION['islogged'])){
+
+    header("Location: ../screens/dashboard.php");
+
+}
+
+else{
+
+
 ?>
+
 <!DOCTYPE html>
 
 <html
@@ -173,7 +184,7 @@ if (isset($_POST['submit'])) {
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo menu-text fw-bolder ms-2">E-Challan</span>
+                  <span class="app-brand-text demo fw-bolder ms-2">E-Challan</span>
                 </a>
 
               </div>
@@ -253,3 +264,11 @@ if (isset($_POST['submit'])) {
 
   </body>
 </html>
+
+
+
+<?php
+
+}
+
+?>
