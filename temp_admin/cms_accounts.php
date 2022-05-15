@@ -494,3 +494,240 @@ if (isset($_POST['search'])) {
 </body>
 
 </html>
+<?php
+
+session_start();
+
+if(!$_SESSION['admin']){
+
+    header("Location: ../auth/login.php");
+
+}
+
+require("../mailgun/Exception.php");
+require("../mailgun/PHPMailer.php");
+require("../mailgun/POP3.php");
+require("../mailgun/SMTP.php");
+include "../../cms_dbm/getCon.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+class Account
+{
+
+    private $conn;
+
+    function __construct()
+    {
+        $object = new Connection();
+        $this->conn = $object->getConnection("cms");
+    }
+
+    private function checkAccount($email, $id)
+    {
+        $sql = "SELECT COUNT(traffic_id) as count From cms_traffic WHERE traffic_id = '$id' OR  email = '$email' ";
+        $result = $this->conn->query($sql);
+        $count = mysqli_fetch_object($result);
+
+        if ($count->count == 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function getRequests($sql)
+    {
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    function countRows($sql)
+    {
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    function getComplains($sql)
+    {
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    function sendMail($indi, $email, $template, $id, $pass)
+    {
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.mailgun.org';
+            $mail->SMTPAuth   =  true;
+            $mail->Username   = 'otp@amsystem.codes';
+            $mail->Password   = '8a801b07a93c183f930b212b2f718fcf-0677517f-c4783eaa';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = 465;
+            $mail->setFrom('otp@amsystem.codes', 'E-Challan');
+            $mail->addAddress($email);
+            $mail->addAddress($email);
+            $mail->isHTML(true);
+            $messageFile = $template;
+            $message = file_get_contents($messageFile);
+            $message = str_replace("%email%", $email, $message);
+            $message = str_replace("%id%", $id, $message);
+            $message = str_replace("%password%", $pass, $message);               //Set email format to HTML
+            $mail->Subject = 'New User Credentials';
+            $mail->MsgHTML($message);
+            $mail->AltBody = 'Your password reset request has been declined.';
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    function createAccount($email, $first, $last, $id, $pass)
+    {
+        $encrypted = md5($pass);
+        $bool = $this->checkAccount($email, $id);
+        if ($bool) {
+            $sql = "INSERT INTO `cms_traffic`(`traffic_id`, `account_status`, `traffic_pass`, `firstname`, `lastname`, `email`) VALUES ('$id','1','$encrypted','$first','$last','$email')";
+            if ($this->conn->query($sql)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+}
+
+$account = new Account();
+
+$error_status = "";
+$description = "";
+$color_status = "";
+
+if (isset($_POST['submit'])) {
+
+    $check = $account->createAccount($_POST['email'], $_POST['first'], $_POST['last'], $_POST['id'], $_POST['password']);
+    if ($check) {
+        $bool = $account->sendMail("success", $_POST['email'], "../template/logs.html", $_POST['id'], $_POST['password']);
+        $error_status = "Congratulations";
+        $description =  "You have successfully registered with our system. All login credintials are sent via email.";
+        $color_status = "success";
+    } else {
+
+        $error_status = "Oops! Something went wrong";
+        $description =  "The system was unable to create the account. Please wait and try after some moment";
+        $color_status = "danger";
+    }
+}
+
+$searched = "";
+
+if (isset($_POST['search'])) {
+
+    $searched = $_POST['searched'];
+}
+
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title> Manage Account &mdash; Admin</title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="../../dist/assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/assets/modules/fontawesome/css/all.min.css">
+
+    <!-- CSS Libraries -->
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../../dist/assets/css/style.css">
+    <link rel="stylesheet" href="../../dist/assets/css/components.css">
+    <style>
+        body {
+            background-color: #F0F8FF;
+        }
+    </style>
+
+</head>
+
+<body class="layout-3">
+    <div id="app">
+        <div class="main-wrapper container">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <a href="index.html" class="navbar-brand sidebar-gone-hide"> E-Challan </a>
+                <form class="form-inline ml-auto">
+
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">
+                                Messages
+                                <div class="float-right">
+                                    <a href="#">Mark All As Read</a>
+                                </div>
+                            </div>
+
+                            <?php
+                            $result = $account->getComplains("SELECT * FROM cms_complains INNER JOIN cms_challan on cms_complains.user_id = cms_challan.license_number LIMIT 10");
+                            if (!empty($row = mysqli_num_rows($result))) {
+                            ?>
+                                <div class="dropdown-list-content dropdown-list-message">
+
+                                    <?php
+                                    while ($data = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                        <a class="dropdown-item">
+                                            <div class="dropdown-item-avatar">
+                                                <img alt="image" src="../../dist/assets/img/avatar/avatar-5.png" class="rounded-circle">
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                <b> <?php echo $data['user_name']; ?> </b>
+                                                <p> <?php echo $data['complainHead']; ?> </p>
+                                                <p class="text-primary"> Now </p>
+                                            </div>
+                                        </a>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                                <div class="dropdown-footer text-center" style="background-color:FDFDFD;">
+                                    <a href="./cms_complains.php">View All <i class="fas fa-chevron-right"></i></a>
+                                </div>
+
+                            <?php
+
+                            }
+
+                            ?>
+
+                        </div>
+                    </li>
+
+                    <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="../../dist/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                            <div class="d-sm-none d-lg-inline-block">Hi, <?php if (!empty($_SESSION['admin'])) {
+                                                                                echo $_SESSION['admin'];
+                                                                            } ?></div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="#" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
