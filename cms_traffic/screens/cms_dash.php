@@ -605,7 +605,7 @@ if (isset($_POST['refresh'])) {
                                                         <div class="float-lg-left mb-lg-0 mb-3 pb-4">
                                                             <button type="submit" name="refresh" value="1" class="btn btn-danger btn-icon icon-left"><i class="fas fa-times"></i> Restart Form </button>
                                                         </div>
-                                                        <input type="button" onclick="printDiv('printableArea')" value="Print" class="btn btn-primary btn-icon icon-left">
+                                                        <input type="button" onclick="printDiv('printable')" value="Print" class="btn btn-primary btn-icon icon-left">
                                                     </div>
 
                                                 <?php
@@ -631,6 +631,8 @@ if (isset($_POST['refresh'])) {
     </div>
 
     <!-- General JS Scripts -->
+    <script src="../../function.js"></script>
+    <script src="../js/print.js"></script>
     <script src="../js/print.js"></script>
     <script src="../js/dropdown.js"></script>
     <script src="../../dist/assets/modules/jquery.min.js"></script>
